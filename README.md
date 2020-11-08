@@ -12,7 +12,8 @@ Hackathon Fulda 2020 Corona Kontaktverfolgungsapp.
 2. Install [Flutter](https://flutter.dev/docs/get-started/install)
 3. Run `Flutter Doctor`
 4. Run `Flutter pub get`
-5. Run `flutter run`
+5. Run `flutter pub run build_runner build`
+6. Run `flutter run`
 
 # Install Release APK on android Device.
 
