@@ -33,7 +33,7 @@ Future<Box> openEncryptedStorage(String name, String encKeyName) async {
   Uint8List encKey = await getEncryptionKey(encKeyName);
   Box myBox;
   try {
-    myBox = await Hive.openBox('settings', encryptionKey: encKey,
+    myBox = await Hive.openBox(name, encryptionKey: encKey,
         compactionStrategy: (entries, deletedEntries) {
       return deletedEntries > 5;
     });
@@ -41,7 +41,7 @@ Future<Box> openEncryptedStorage(String name, String encKeyName) async {
     logger.e("Couldn't open Encrypted storage: " + name);
     Hive.deleteBoxFromDisk(name);
 
-    myBox = await Hive.openBox('settings', encryptionKey: encKey,
+    myBox = await Hive.openBox(name, encryptionKey: encKey,
         compactionStrategy: (entries, deletedEntries) {
       return deletedEntries > 5;
     });

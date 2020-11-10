@@ -5,7 +5,7 @@ import 'package:flutter_string_encryption/flutter_string_encryption.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manco_tracer/models/person.dart';
 import 'package:manco_tracer/models/transfer.dart';
-import 'package:manco_tracer/screens/contactData/check/contactcheck.dart';
+import 'package:manco_tracer/screens/personData/check/personcheck.dart';
 
 class DecryptScreen extends StatefulWidget {
   final String value;
@@ -79,8 +79,8 @@ class _DecryptorState extends State<DecryptScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => ContactCheck(
-                    contactmodel: recievedContact,
+              builder: (context) => PersonCheck(
+                    personModel: recievedContact,
                   )),
         );
       } on MacMismatchException {

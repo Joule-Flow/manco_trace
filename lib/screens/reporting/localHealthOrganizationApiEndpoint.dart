@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:manco_tracer/services/storage/settings.dart';
+import 'package:manco_tracer/services/storage/settingsStorage.dart';
 
 class LocalHealthOrganizationApiEndpoint extends StatefulWidget {
   @override

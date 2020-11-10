@@ -1,7 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:manco_tracer/models/event.dart';
+import 'package:manco_tracer/services/storage/eventsStorage.dart';
 
 class ManageEvent extends StatefulWidget {
   @override
@@ -9,13 +9,9 @@ class ManageEvent extends StatefulWidget {
 }
 
 class _ManageEventState extends State<ManageEvent> {
-  Box _storage;
+  EventsStorage _storage;
   Event _event;
   bool _init = false;
-
-  bool hasBeenInitialized() {
-    return this._init; // !! Not implemented
-  }
 
   @override
   initState() {
@@ -24,9 +20,8 @@ class _ManageEventState extends State<ManageEvent> {
   }
 
   getStorage() async {
-    this._event = new Event(
-        active: false, name: "new Event", startOfEvent: DateTime.now());
-
+    this._event = new Event(name: "new Event", startOfEvent: DateTime.now());
+    this._storage = EventsStorage();
     setState(() {
       this._init = true;
     });
@@ -34,34 +29,32 @@ class _ManageEventState extends State<ManageEvent> {
 
   void endEvent() {
     this._event.endOfEvent = DateTime.now();
-
-    this._storage.put('event', _event);
   }
 
   void dispose() {
     super.dispose();
-    this._storage?.close();
   }
 
-  void displayMessage(String message) {
+  void displayMessage(String message, [MaterialColor color = Colors.red]) {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
+        backgroundColor: color,
         textColor: Colors.white,
         fontSize: 16.0);
   }
 
-  validationProcessSuccessful() {
+  validateEvent(Event event) {
     return true;
   }
 
   saveData() async {
-    if (validationProcessSuccessful()) {
-      this._storage.put("event", this._event);
-      displayMessage("Data has been saved.");
+    Event event = Event(name: 'Testevent01');
+    if (validateEvent(event)) {
+      this._storage.addEvent(event);
+      displayMessage("Data has been saved.", Colors.green);
     } else {
       displayMessage("Validation failed.");
     }
@@ -69,7 +62,7 @@ class _ManageEventState extends State<ManageEvent> {
 
   @override
   Widget build(BuildContext context) {
-    if (hasBeenInitialized()) {
+    if (this._init) {
       return Scaffold(
           appBar: AppBar(
             title: Text("Event MGMT"),

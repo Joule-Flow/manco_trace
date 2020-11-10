@@ -4,14 +4,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manco_tracer/screens/readcontact/encrypted/qr_reader.dart';
 import '../../../components/contact/contact.dart';
 
-class ContactCheck extends StatefulWidget {
-  final Person contactmodel;
-  ContactCheck({Key key, @required this.contactmodel}) : super(key: key);
+class PersonCheck extends StatefulWidget {
+  final Person personModel;
+  PersonCheck({Key key, @required this.personModel}) : super(key: key);
   @override
-  _ContactCheckState createState() => _ContactCheckState();
+  _PersonCheckState createState() => _PersonCheckState();
 }
 
-class _ContactCheckState extends State<ContactCheck> {
+class _PersonCheckState extends State<PersonCheck> {
   @override
   initState() {
     super.initState();
@@ -47,7 +47,7 @@ class _ContactCheckState extends State<ContactCheck> {
           title: Text("Kontaktdaten Checken"),
         ),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ContactInfo(contactmodel: widget.contactmodel, readonly: true),
+          ContactInfo(contactmodel: widget.personModel, readonly: true),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

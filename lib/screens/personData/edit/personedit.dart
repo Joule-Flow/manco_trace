@@ -3,21 +3,21 @@ import 'package:manco_tracer/models/address.dart';
 import 'package:manco_tracer/models/person.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manco_tracer/components/contact/contact.dart';
-import 'package:manco_tracer/services/storage/settings.dart';
+import 'package:manco_tracer/services/storage/settingsStorage.dart';
 
-class ContactEdit extends StatefulWidget {
+class PersonEdit extends StatefulWidget {
   @override
-  _ContactEditState createState() => _ContactEditState();
+  _PersonEditState createState() => _PersonEditState();
 }
 
-class _ContactEditState extends State<ContactEdit> {
+class _PersonEditState extends State<PersonEdit> {
   SettingsStorage _storage;
-  Person _contact;
+  Person _person;
   bool _init = false;
 
   getstorage() async {
     this._storage = SettingsStorage();
-    this._contact = await this._storage.getUser() ??
+    this._person = await this._storage.getUser() ??
         new Person(
           address: Address(),
         );
@@ -39,7 +39,7 @@ class _ContactEditState extends State<ContactEdit> {
   }
 
   saveData() async {
-    if (this._contact.birthday == null) {
+    if (this._person.birthday == null) {
       Fluttertoast.showToast(
           msg:
               "Bitte Geburtstag Eingeben, damit der QR Code Verschlüsselt werden kann",
@@ -50,7 +50,7 @@ class _ContactEditState extends State<ContactEdit> {
           textColor: Colors.white,
           fontSize: 16.0);
     } else {
-      if (this._contact.lastName == null || this._contact.lastName == "") {
+      if (this._person.lastName == null || this._person.lastName == "") {
         Fluttertoast.showToast(
             msg:
                 "Bitte Nachnamen Eingeben, damit der QR Code Verschlüsselt werden kann",
@@ -61,7 +61,7 @@ class _ContactEditState extends State<ContactEdit> {
             textColor: Colors.white,
             fontSize: 16.0);
       } else {
-        this._storage.setUser(this._contact);
+        this._storage.setUser(this._person);
         Fluttertoast.showToast(
             msg: "Daten gespeichert",
             toastLength: Toast.LENGTH_SHORT,
@@ -82,7 +82,7 @@ class _ContactEditState extends State<ContactEdit> {
             title: Text("Kontaktdaten"),
           ),
           body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            ContactInfo(contactmodel: this._contact, readonly: false),
+            ContactInfo(contactmodel: this._person, readonly: false),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

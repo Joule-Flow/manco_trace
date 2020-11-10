@@ -73,7 +73,7 @@ class _MainAppBodyState extends State<MainAppBody> {
                       textColor: Colors.white),
                   RaisedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/ContactExportQR');
+                        Navigator.pushNamed(context, '/PersonExportQR');
                       },
                       child: const Text('Export QR Code'),
                       color: Colors.blue,

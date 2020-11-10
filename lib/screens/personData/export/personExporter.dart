@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:manco_tracer/models/person.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
@@ -8,22 +7,22 @@ import 'package:manco_tracer/models/transfer.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_string_encryption/flutter_string_encryption.dart';
 import 'package:intl/intl.dart';
-import 'package:manco_tracer/services/storage/settings.dart';
+import 'package:manco_tracer/services/storage/settingsStorage.dart';
 
-class ContactExportQR extends StatefulWidget {
+class PersonExportQR extends StatefulWidget {
   @override
-  _ContactExportQRState createState() => _ContactExportQRState();
+  _PersonExportQRState createState() => _PersonExportQRState();
 }
 
-class _ContactExportQRState extends State<ContactExportQR> {
+class _PersonExportQRState extends State<PersonExportQR> {
   SettingsStorage _storage;
-  Person _contact;
+  Person _person;
   String qrExport;
   final cryptor = new PlatformStringCryptor();
 
   getstorage() async {
     this._storage = SettingsStorage();
-    this._contact = await this._storage.getUser();
+    this._person = await this._storage.getUser();
     encryptQR();
   }
 
@@ -39,14 +38,14 @@ class _ContactExportQRState extends State<ContactExportQR> {
   }
 
   encryptQR() async {
-    if (this._contact?.birthday != null) {
-      String password = this._contact.lastName +
-          DateFormat('ddMMyyyy').format(this._contact.birthday);
+    if (this._person?.birthday != null) {
+      String password = this._person.lastName +
+          DateFormat('ddMMyyyy').format(this._person.birthday);
       String salt = await cryptor.generateSalt();
       String key = await cryptor.generateKeyFromPassword(password, salt);
       TransferData qrOut = new TransferData();
       String encrypted =
-          await cryptor.encrypt(jsonEncode(this._contact.toJson()), key);
+          await cryptor.encrypt(jsonEncode(this._person.toJson()), key);
       qrOut
         ..data = encrypted
         ..version = "0.1"
